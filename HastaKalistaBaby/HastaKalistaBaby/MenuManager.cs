@@ -106,13 +106,6 @@ namespace HastaKalistaBaby
                 root.AddSubMenu(lvl);
             }
 
-            var ex = new Menu("Exploit Settings", "ExploitOP").SetFontStyle(System.Drawing.FontStyle.Bold, Color.Red);
-            {
-                ex.AddItem(new MenuItem("EXsetting", "Exploit Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.OrangeRed);
-                ex.AddItem(new MenuItem("Fly", "Activate Exploit").SetValue(false));
-                root.AddSubMenu(ex);
-            }
-
             root.AddToMainMenu();
         }
     }
