@@ -73,7 +73,7 @@ namespace HastaKalistaBaby
                 case Orbwalking.OrbwalkingMode.Combo:
                     Items();
                     Qlogic();
-                    if (root.Item("Fly").GetValue<bool>())
+                    if (root.Item("Fly").GetValue<bool>() || Helper.AttackSpeed()<1.7)
                     {
                         var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
                         if (target.IsValidTarget())
