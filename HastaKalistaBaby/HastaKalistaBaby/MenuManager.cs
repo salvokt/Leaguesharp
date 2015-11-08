@@ -55,7 +55,15 @@ namespace HastaKalistaBaby
                 r.AddItem(new MenuItem("Rsetting", "R Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.BlueViolet);
                 r.AddItem(new MenuItem("AutoR", "Auto R Saver").SetValue(true));
                 r.AddItem(new MenuItem("KBS", "Auto R BlitzCrank/Skarner/Kench").SetValue(true));
+                r.AddItem(new MenuItem("PredictR", "Predict Incoming Damage R").SetValue(true));
                 root.AddSubMenu(r);
+            }
+
+            var misc = new Menu("Miscellaneous Settings", "misc");
+            {
+                misc.AddItem(new MenuItem("Miscsetting", "Miscellaneuos Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.Honeydew);
+                misc.AddItem(new MenuItem("Gp", "Gapclose in Combo").SetValue(true));
+                root.AddSubMenu(misc);
             }
 
             var item = new Menu("Activator Settings", "item");
@@ -86,11 +94,11 @@ namespace HastaKalistaBaby
                 draw.AddItem(new MenuItem("Erange", "Draw E Range").SetValue(true));
                 draw.AddItem(new MenuItem("Rrange", "Draw R Range").SetValue(true));
                 draw.AddItem(new MenuItem("healthp", "Show Health Percent").SetValue(true));
-                draw.AddItem(new MenuItem("healthp1", "Show Damage HealthBar").SetValue(new Circle(true, System.Drawing.Color.LightSkyBlue)));
+                draw.AddItem(new MenuItem("healthp1", "Show Damage HealthBar").SetValue(new Circle(true, System.Drawing.Color.Purple)));
                 draw.AddItem(new MenuItem("Target", "Draw Current Target").SetValue(true));
                 draw.AddItem(new MenuItem("TargetA", "Draw Target Attack Range").SetValue(true));
                 draw.AddItem(new MenuItem("Minionh", "Draw killable minions").SetValue(true));
-                draw.AddItem(new MenuItem("fps", "Reduce FPS usage (If you want style put this off)").SetValue(false));
+                draw.AddItem(new MenuItem("fps", "Reduce FPS usage").SetValue(false));
                 root.AddSubMenu(draw);
             }
 
@@ -104,6 +112,13 @@ namespace HastaKalistaBaby
                 lvl.AddItem(new MenuItem("4", "4").SetValue(new StringList(new[] { "Q", "W", "E", "R" }, 1)));
                 lvl.AddItem(new MenuItem("s", "Start at level").SetValue(new Slider(2, 1, 5)));
                 root.AddSubMenu(lvl);
+            }
+
+            var ex = new Menu("Exploit Settings", "ExploitOP").SetFontStyle(System.Drawing.FontStyle.Bold, Color.Red);
+            {
+                ex.AddItem(new MenuItem("EXsetting", "Exploit Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.OrangeRed);
+                ex.AddItem(new MenuItem("Fly", "Activate Exploit").SetValue(false));
+                root.AddSubMenu(ex);
             }
 
             root.AddToMainMenu();

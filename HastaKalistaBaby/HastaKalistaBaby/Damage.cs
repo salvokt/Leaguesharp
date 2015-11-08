@@ -22,13 +22,13 @@ namespace HastaKalistaBaby
 
         public static float GetEdamage(Obj_AI_Base target)
         {
-            if (GetBuffCount(target) > 0)
+            if (target.GetBuffCount("kalistaexpungemarker") > 0)
             {
                 var dmg =
                     (float)
                         ((new double[] { 20, 30, 40, 50, 60 }[Program.E.Level - 1] +
                           0.6 * (Program.Player.BaseAttackDamage + Program.Player.FlatPhysicalDamageMod)) +
-                         ((GetBuffCount(target) - 1) *
+                         ((target.GetBuffCount("kalistaexpungemarker") - 1) *
                           (new double[] { 10, 14, 19, 25, 32 }[Program.E.Level - 1] +
                            new double[] { 0.2, 0.225, 0.25, 0.275, 0.3 }[Program.E.Level - 1] *
                            (Program.Player.BaseAttackDamage + Program.Player.FlatPhysicalDamageMod))));
@@ -66,11 +66,6 @@ namespace HastaKalistaBaby
             }
             return 0;
 
-        }
-
-        public static int GetBuffCount(Obj_AI_Base target)
-        {
-            return (target.GetBuffCount("kalistaexpungemarker") < 2) ? target.GetBuffCount("kalistaexpungemarker") + 1 : target.GetBuffCount("kalistaexpungemarker");
         }
     }
 }

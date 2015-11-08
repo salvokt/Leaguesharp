@@ -10,6 +10,8 @@ namespace HastaKalistaBaby
     internal class Helper
     {
         private static Menu root = Program.root;
+        private static readonly Dictionary<float, float> IncDamage = new Dictionary<float, float>();
+        private static readonly Dictionary<float, float> InstDamage = new Dictionary<float, float>();
         public static void OnProcessSpellCast(Obj_AI_Base hero, GameObjectProcessSpellCastEventArgs args)
         {
             if (hero.IsMe)
@@ -28,9 +30,40 @@ namespace HastaKalistaBaby
                 Program.grabT = Game.Time;
             }
 
-            if(hero.IsEnemy && root.Item("IncDmg").GetValue<bool>())
+            if (hero.IsEnemy && root.Item("PredictR").GetValue<bool>() && Program.soulmate != null)
             {
+                if ((!(hero is Obj_AI_Hero) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId)
+                {
 
+                }
+                else
+                {
+                    var enemy = hero as Obj_AI_Hero;
+                    if (enemy != null)
+                    {
+                        if (enemy.GetSpellSlot(args.SData.Name) == enemy.GetSpellSlot("SummonerDot") && args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId)
+                        {
+                            InstDamage[Game.Time + 2] = (float)enemy.GetSummonerSpellDamage(Program.soulmate, LeagueSharp.Common.Damage.SummonerSpell.Ignite);
+                        }
+                    }
+                    else
+                    {
+                        switch (enemy.GetSpellSlot(args.SData.Name))
+                        {
+                            case SpellSlot.Q:
+                            case SpellSlot.W:
+                            case SpellSlot.E:
+                            case SpellSlot.R:
+
+                                if ((args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId) || args.End.Distance(Program.soulmate.ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
+                                {
+                                    InstDamage[Game.Time + 2] = (float)enemy.GetSpellDamage(Program.soulmate, enemy.GetSpellSlot(args.SData.Name));
+                                }
+
+                                break;
+                        }
+                    }
+                }
             }
         }
 
@@ -51,17 +84,17 @@ namespace HastaKalistaBaby
 
         public static float GetHealth(Obj_AI_Base target)
         {
-            if(target.HasBuff("BlackShield") && (target is Obj_AI_Hero))
+            if (target.HasBuff("BlackShield") && (target is Obj_AI_Hero))
             {
                 return target.Health;
             }
 
-            if(target.HasBuff("EyeOfTheStorm") || target.HasBuff("KarmaSolKimShield") || target.HasBuff("blindmonkwoneshield") || target.HasBuff("lulufarieshield") || 
-                target.HasBuff("luxprismaticwaveshieldself") || target.HasBuff("orianaredactshield") || target.HasBuff("manabarrier") || 
-                target.HasBuff("ShenStandUnited") || target.HasBuff("Shenstandunitedshield") || target.HasBuff("RivenFeint") || target.HasBuff("udyrturtleactivation") || 
-                target.HasBuff("malphiteshieldeffect") || target.HasBuff("JarvanIVGoeldenAegis")|| target.HasBuff("evelynnrshield") || target.HasBuff("rumbleshieldbuff") ||
-                target.HasBuff("sionwshieldstacks") || target.HasBuff("SkarnerExoskeleton") || target.HasBuff("vipassivebuff") ||target.HasBuff("tahmkencheshield") || target.HasBuff("dianashield")
-                || target.HasBuff("mordekaiserironman") || target.HasBuff("nautiluspiercinggazeshield")|| target.HasBuff("UrgotTerrorCapacitorActive2") || target.HasBuff("ViktorPowerTransfer")||
+            if (target.HasBuff("EyeOfTheStorm") || target.HasBuff("KarmaSolKimShield") || target.HasBuff("blindmonkwoneshield") || target.HasBuff("lulufarieshield") ||
+                target.HasBuff("luxprismaticwaveshieldself") || target.HasBuff("orianaredactshield") || target.HasBuff("manabarrier") ||
+                target.HasBuff("ShenStandUnited") || target.HasBuff("Shenstandunitedshield") || target.HasBuff("RivenFeint") || target.HasBuff("udyrturtleactivation") ||
+                target.HasBuff("malphiteshieldeffect") || target.HasBuff("JarvanIVGoeldenAegis") || target.HasBuff("evelynnrshield") || target.HasBuff("rumbleshieldbuff") ||
+                target.HasBuff("sionwshieldstacks") || target.HasBuff("SkarnerExoskeleton") || target.HasBuff("vipassivebuff") || target.HasBuff("tahmkencheshield") || target.HasBuff("dianashield")
+                || target.HasBuff("mordekaiserironman") || target.HasBuff("nautiluspiercinggazeshield") || target.HasBuff("UrgotTerrorCapacitorActive2") || target.HasBuff("ViktorPowerTransfer") ||
                 target.HasBuff("summonerbarrier") || target.HasBuff("ItemSeraphsEmbrace"))
             {
                 return (target.Health + target.AllShield);
@@ -182,5 +215,25 @@ namespace HastaKalistaBaby
             return 1 / Program.Player.AttackDelay;
         }
 
+        public static float IncomingDamage
+        {
+            get { return IncDamage.Sum(e => e.Value) + InstDamage.Sum(e => e.Value); }
+        }
+
+        public static void AADamageRemove()
+        {
+            foreach (var entry in IncDamage.Where(entry => entry.Key < Game.Time).ToArray())
+            {
+                IncDamage.Remove(entry.Key);
+            }
+        }
+
+        public static void SpellDamageRemove()
+        {
+            foreach (var entry in InstDamage.Where(entry => entry.Key < Game.Time).ToArray())
+            {
+                InstDamage.Remove(entry.Key);
+            }
+        }
     }
 }

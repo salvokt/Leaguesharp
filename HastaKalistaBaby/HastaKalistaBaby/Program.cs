@@ -73,18 +73,57 @@ namespace HastaKalistaBaby
                 case Orbwalking.OrbwalkingMode.Combo:
                     Items();
                     Qlogic();
+                    if (root.Item("Fly").GetValue<bool>())
+                    {
+                        var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
+                        if (target.IsValidTarget())
+                        {
+                            if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)
+                            {
+                                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                            }
+                            if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150f)
+                            {
+                                Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                            }
+                        }
+                        else
+                        {
+                            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                        }
+                    }
                     break;
-
                 case Orbwalking.OrbwalkingMode.LaneClear:
                     if (root.Item("AutoQH").GetValue<bool>())
                     {
                         Qlogic();
                     }
-
+                    if (root.Item("Fly").GetValue<bool>())
+                    {
+                        var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
+                        if (target.IsValidTarget())
+                        {
+                            if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)
+                            {
+                                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                            }
+                            if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150f)
+                            {
+                                Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                            }
+                        }
+                        else
+                        {
+                            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                        }
+                    }
                     break;
             }
+            Flee();
             WLogic();
             RLogic();
+            Helper.AADamageRemove();
+            Helper.SpellDamageRemove();
             ELogic();
             LaneClear();
             JungleClear();
@@ -120,8 +159,6 @@ namespace HastaKalistaBaby
                         }
                     }
                 }
-
-
             }
         }
 
@@ -253,7 +290,7 @@ namespace HastaKalistaBaby
             }
             else if (soulmate.IsVisible && soulmate.Distance(Player) < R.Range)
             {
-                if (soulmate.Health < Helper.CountEnemy(soulmate.Position, 600) * soulmate.Level * 30)
+                if (soulmate.Health < Helper.CountEnemy(soulmate.Position, 600) * soulmate.Level * 30 || Helper.IncomingDamage > soulmate.Health)
                 {
                     R.Cast();
                 }
@@ -317,6 +354,42 @@ namespace HastaKalistaBaby
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        private static void Flee()
+        {
+            if (!root.Item("Gp").GetValue<bool>() || !(Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+            {
+                return;
+            }
+
+            if (!HeroManager.Enemies.Any(x => x.IsValidTarget() && Orbwalking.InAutoAttackRange(x)))
+            {
+
+                var Minion = MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 65, MinionTypes.All, MinionTeam.NotAlly).OrderBy(x => x.Distance(ObjectManager.Player)).FirstOrDefault();
+                if (Minion != null)
+                {
+                    if (root.Item("Fly").GetValue<bool>())
+                    {
+                        if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)
+                        {
+                            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                        }
+                        if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150f)
+                        {
+                            Player.IssueOrder(GameObjectOrder.AttackUnit, Minion);
+                        }
+                    }
+                    else
+                    {
+                        Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                    }
+                }
+                else
+                {
+                    Orbwalking.Orbwalk(Minion, Game.CursorPos, 0f);
                 }
             }
         }
