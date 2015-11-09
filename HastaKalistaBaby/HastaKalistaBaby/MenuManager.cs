@@ -33,7 +33,7 @@ namespace HastaKalistaBaby
                 e.AddItem(new MenuItem("Esetting", "E Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.Blue);
                 e.AddItem(new MenuItem("AutoEChamp", "Auto E On Champions").SetValue(true));
                 e.AddItem(new MenuItem("AutoEDead", "Auto E Before Death").SetValue(true));
-                e.AddItem(new MenuItem("AutoEDeadS", "Auto E Before Death if Health % <=").SetValue(new Slider(15, 1, 30)));
+                e.AddItem(new MenuItem("AutoEDeadS", "Auto E Before Death if Health % <=").SetValue(new Slider(5, 1, 20)));
                 e.AddItem(new MenuItem("jEsetting", "Jungle Settings"));
                 e.AddItem(new MenuItem("BlueM", "Auto E Blue").SetValue(true));
                 e.AddItem(new MenuItem("RedM", "Auto E Red").SetValue(true));

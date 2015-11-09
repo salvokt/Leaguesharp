@@ -100,7 +100,7 @@ namespace HastaKalistaBaby
                     }
                     if (root.Item("Fly").GetValue<bool>() || Helper.AttackSpeed() < 1.7)
                     {
-                        var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
+                        var target = MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 65, MinionTypes.All, MinionTeam.NotAlly).OrderBy(x => x.Distance(ObjectManager.Player)).FirstOrDefault();
                         if (target.IsValidTarget())
                         {
                             if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)
@@ -360,9 +360,10 @@ namespace HastaKalistaBaby
                 return;
             }
 
-            if (!HeroManager.Enemies.Any(x => x.IsValidTarget() && Orbwalking.InAutoAttackRange(x)))
-            {
+            var enemy = HeroManager.Enemies.Any(x => !x.IsDead && x.IsValidTarget() && x.Distance(Player) > Orbwalking.GetRealAutoAttackRange(null) + 130 && x.Distance(Player) < (E.Range + 500));
 
+            if (enemy)
+            {
                 var Minion = MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 65, MinionTypes.All, MinionTeam.NotAlly).OrderBy(x => x.Distance(ObjectManager.Player)).FirstOrDefault();
                 if (Minion != null)
                 {
