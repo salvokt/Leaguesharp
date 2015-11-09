@@ -27,7 +27,7 @@ namespace HastaKalistaBaby
         public static Font Text;
         public static float grabT = Game.Time, lastecast = 0f;
         public static double i;
-        public static float time, wtime;
+        public static float time;
         public static Obj_AI_Hero soulmate = null;
 
 
@@ -164,14 +164,9 @@ namespace HastaKalistaBaby
 
         private static void WLogic()
         {
-            if (!W.IsReady() && Helper.GetMana(W) < 80 && Game.Time - wtime < 2)
+            if (!W.IsReady() || Helper.GetMana(W) < 80 || Player.IsRecalling())
             {
                 return;
-            }
-
-            if (Helper.CountEnemy(Player.Position, 1300) > 0)
-            {
-                wtime = Game.Time;
             }
 
             if(root.Item("WBaron").GetValue<KeyBind>().Active)
@@ -194,7 +189,7 @@ namespace HastaKalistaBaby
                     W.Cast(dragonPos);
             }
 
-            if ((root.Item("AutoW").GetValue<bool>() || root.Item("WAll").GetValue<KeyBind>().Active) && Helper.CountEnemy(Player.Position, 1300) == 0)
+            if ((root.Item("AutoW").GetValue<bool>() || root.Item("WAll").GetValue<KeyBind>().Active))
             {
                 if (wcount > 0)
                 {
