@@ -100,7 +100,7 @@ namespace HastaKalistaBaby
                     }
                     if (root.Item("Fly").GetValue<bool>() || Helper.AttackSpeed() < 1.7)
                     {
-                        var target = MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 65, MinionTypes.All, MinionTeam.NotAlly).OrderBy(x => x.Distance(ObjectManager.Player)).FirstOrDefault();
+                        var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
                         if (target.IsValidTarget())
                         {
                             if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)

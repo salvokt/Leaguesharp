@@ -3,12 +3,13 @@ using SharpDX;
 
 namespace HastaKalistaBaby
 {
-    internal class MenuManager
+    public static class MenuManager
     {
         private static Menu root = Program.root;
         private static Menu draw = Program.draw;
         public static void Create()
         {
+
             var q = new Menu("Q Settings", "spell.q");
             {
                 q.AddItem(new MenuItem("Qsetting", "Q Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.Red);
