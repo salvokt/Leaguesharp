@@ -30,7 +30,7 @@ namespace HastaKalistaBaby
                 Program.grabT = Game.Time;
             }
 
-            if (hero.IsEnemy && root.Item("PredictR").GetValue<bool>() && Program.soulmate != null)
+            if (Program.R.IsReady() && hero.IsEnemy && root.Item("PredictR").GetValue<bool>() && Program.soulmate != null && Program.soulmate.Distance(Program.Player.Position) < Program.R.Range)
             {
                 if ((!(hero is Obj_AI_Hero) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId)
                 {
