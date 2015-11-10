@@ -20,6 +20,7 @@ namespace HastaKalistaBaby
         static Items.Item healthpotion = new Items.Item(2003, 0);
         static Items.Item manapotion = new Items.Item(2004, 0);
         static Items.Item flask = new Items.Item(2041, 0);
+        private static Vector3 Wlast;
         public static EarlyEvade ee;
         public static Orbwalking.Orbwalker Orbwalker;
         public static int wcount = 0;
@@ -121,6 +122,7 @@ namespace HastaKalistaBaby
             }
             Flee();
             WLogic();
+            WHelper();
             RLogic();
             Helper.AADamageRemove();
             Helper.SpellDamageRemove();
@@ -176,7 +178,10 @@ namespace HastaKalistaBaby
                 baronPos.Y = 10788;
                 baronPos.Z = 0;
                 if (Player.Distance(baronPos) < 5000)
+                {
                     W.Cast(baronPos);
+                    Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                }
             }
 
             if(root.Item("WDrake").GetValue<KeyBind>().Active)
@@ -186,7 +191,10 @@ namespace HastaKalistaBaby
                 dragonPos.Y = 4475f;
                 dragonPos.Z = 0f;
                 if (Player.Distance(dragonPos) < 5000)
+                {
                     W.Cast(dragonPos);
+                    Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                }
             }
 
             if ((root.Item("AutoW").GetValue<bool>() || root.Item("WAll").GetValue<KeyBind>().Active))
@@ -198,7 +206,10 @@ namespace HastaKalistaBaby
                     baronPos.Y = 10788;
                     baronPos.Z = 0;
                     if (Player.Distance(baronPos) < 5000)
+                    {
                         W.Cast(baronPos);
+                        Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                    }
                 }
                 if (wcount == 0)
                 {
@@ -207,7 +218,10 @@ namespace HastaKalistaBaby
                     dragonPos.Y = 4475f;
                     dragonPos.Z = 0f;
                     if (Player.Distance(dragonPos) < 5000)
+                    {
                         W.Cast(dragonPos);
+                        Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                    }
                     else
                         wcount++;
                     return;
@@ -220,7 +234,10 @@ namespace HastaKalistaBaby
                     redPos.Y = 4156;
                     redPos.Z = 0;
                     if (Player.Distance(redPos) < 5000)
+                    {
                         W.Cast(redPos);
+                        Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                    }
                     else
                         wcount++;
                     return;
@@ -232,7 +249,10 @@ namespace HastaKalistaBaby
                     bluePos.Y = 7076;
                     bluePos.Z = 0;
                     if (Player.Distance(bluePos) < 5000)
+                    {
                         W.Cast(bluePos);
+                        Player.IssueOrder(GameObjectOrder.MoveTo, Wlast);
+                    }
                     else
                         wcount++;
                     return;
@@ -350,6 +370,14 @@ namespace HastaKalistaBaby
                         }
                     }
                 }
+            }
+        }
+
+        private static void WHelper()
+        {
+            if(Player.GetWaypoints().LastOrDefault().Distance(Player.Position) > 250)
+            {
+                Wlast = Player.GetWaypoints().LastOrDefault().To3D();
             }
         }
 
