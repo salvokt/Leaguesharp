@@ -164,7 +164,7 @@ namespace HastaKalistaBaby
 
         private static void WLogic()
         {
-            if (!W.IsReady() || Helper.GetMana(W) < 80 || Player.IsRecalling())
+            if (!W.IsReady() || Helper.GetMana(W) < 80 || Player.IsRecalling() || Player.CountEnemiesInRange(1500)>0)
             {
                 return;
             }
