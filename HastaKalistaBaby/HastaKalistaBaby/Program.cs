@@ -99,25 +99,7 @@ namespace HastaKalistaBaby
                     {
                         Qlogic();
                     }
-                    if (root.Item("Fly").GetValue<bool>() || Helper.AttackSpeed() < 1.7)
-                    {
-                        var target = TargetSelector.GetTarget(Orbwalking.GetAttackRange(Player), TargetSelector.DamageType.Physical);
-                        if (target.IsValidTarget())
-                        {
-                            if (Game.Time * 1000 >= Orbwalking.LastAATick + 1)
-                            {
-                                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-                            }
-                            if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150f)
-                            {
-                                Player.IssueOrder(GameObjectOrder.AttackUnit, target);
-                            }
-                        }
-                        else
-                        {
-                            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-                        }
-                    }
+
                     break;
             }
             Flee();
