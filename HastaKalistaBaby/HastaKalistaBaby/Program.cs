@@ -83,7 +83,7 @@ namespace HastaKalistaBaby
                             {
                                 Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                             }
-                            if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150f)
+                            if (Game.Time * 1000 > Orbwalking.LastAATick + Player.AttackDelay * 1000 - 150)
                             {
                                 Player.IssueOrder(GameObjectOrder.AttackUnit, target);
                             }
@@ -124,8 +124,6 @@ namespace HastaKalistaBaby
             WLogic();
             WHelper();
             RLogic();
-            Helper.AADamageRemove();
-            Helper.SpellDamageRemove();
             ELogic();
             LaneClear();
             JungleClear();

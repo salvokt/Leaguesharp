@@ -29,42 +29,6 @@ namespace HastaKalistaBaby
             {
                 Program.grabT = Game.Time;
             }
-
-            if (Program.R.IsReady() && hero.IsEnemy && root.Item("PredictR").GetValue<bool>() && Program.soulmate != null && Program.soulmate.Distance(Program.Player.Position) < Program.R.Range)
-            {
-                if ((!(hero is Obj_AI_Hero) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId)
-                {
-
-                }
-                else
-                {
-                    var enemy = hero as Obj_AI_Hero;
-                    if (enemy != null)
-                    {
-                        if (enemy.GetSpellSlot(args.SData.Name) == enemy.GetSpellSlot("SummonerDot") && args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId)
-                        {
-                            InstDamage[Game.Time + 2] = (float)enemy.GetSummonerSpellDamage(Program.soulmate, LeagueSharp.Common.Damage.SummonerSpell.Ignite);
-                        }
-                    }
-                    else
-                    {
-                        switch (enemy.GetSpellSlot(args.SData.Name))
-                        {
-                            case SpellSlot.Q:
-                            case SpellSlot.W:
-                            case SpellSlot.E:
-                            case SpellSlot.R:
-
-                                if ((args.Target != null && args.Target.NetworkId == Program.soulmate.NetworkId) || args.End.Distance(Program.soulmate.ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
-                                {
-                                    InstDamage[Game.Time + 2] = (float)enemy.GetSpellDamage(Program.soulmate, enemy.GetSpellSlot(args.SData.Name));
-                                }
-
-                                break;
-                        }
-                    }
-                }
-            }
         }
 
         public static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)

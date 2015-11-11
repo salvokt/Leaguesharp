@@ -56,7 +56,6 @@ namespace HastaKalistaBaby
                 r.AddItem(new MenuItem("Rsetting", "R Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.BlueViolet);
                 r.AddItem(new MenuItem("AutoR", "Auto R Saver").SetValue(true));
                 r.AddItem(new MenuItem("KBS", "Auto R BlitzCrank/Skarner/Kench").SetValue(true));
-                r.AddItem(new MenuItem("PredictR", "Predict Incoming Damage R").SetValue(true));
                 root.AddSubMenu(r);
             }
 
