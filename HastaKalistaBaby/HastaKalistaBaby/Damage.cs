@@ -14,7 +14,7 @@ namespace HastaKalistaBaby
 
         public static float GetWDmg(Obj_AI_Base target)
         {
-            var dmg = (new double[] { 12, 14, 16, 18, 20 }[Program.W.Level] / 100)
+            var dmg = (new double[] { 5, 7.5, 10, 12.5, 15 }[Program.W.Level] / 100)
             * target.MaxHealth;
             return (float)Program.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Magical, dmg);
 

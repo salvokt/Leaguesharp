@@ -59,34 +59,6 @@ namespace HastaKalistaBaby
                 root.AddSubMenu(r);
             }
 
-            var misc = new Menu("Miscellaneous Settings", "misc");
-            {
-                misc.AddItem(new MenuItem("Miscsetting", "Miscellaneuos Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.Honeydew);
-                misc.AddItem(new MenuItem("Gp", "Gapclose in Combo").SetValue(true));
-                root.AddSubMenu(misc);
-            }
-
-            var item = new Menu("Activator Settings", "item");
-            {
-                item.AddItem(new MenuItem("hpp", "Potions")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.BlueViolet);
-                item.AddItem(new MenuItem("hp1", "Health Potion").SetValue(true));
-                item.AddItem(new MenuItem("mp1", "Mana Potion").SetValue(true));
-                item.AddItem(new MenuItem("flask", "Crystalline Flask").SetValue(true));
-                item.AddItem(new MenuItem("bilgwater", "Bilgewater's Cutlass")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.Orange);
-                item.AddItem(new MenuItem("bilg", "Bilgewater's Cutlass").SetValue(true));
-                item.AddItem(new MenuItem("enemybilg", "Use on Enemy HP % <=").SetValue(new Slider(90, 0, 100)));
-                item.AddItem(new MenuItem("selfbilg", "Use on Self HP % <=").SetValue(new Slider(25, 0, 100)));
-                item.AddItem(new MenuItem("botrk", "Blade of the Ruined King")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.OrangeRed);
-                item.AddItem(new MenuItem("Botkr", "Blade of the Ruined King").SetValue(true));
-                item.AddItem(new MenuItem("enemyBotkr", "Use on Enemy HP % <=").SetValue(new Slider(90, 0, 100)));
-                item.AddItem(new MenuItem("selfBotkr", "Use on Self HP % <=").SetValue(new Slider(25, 0, 100)));
-                item.AddItem(new MenuItem("Youmus", "Youmuus Ghostblade")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.HotPink);
-                item.AddItem(new MenuItem("youm", "Youmuus Ghostblade").SetValue(true));
-                item.AddItem(new MenuItem("enemyYoumuus","Use on Enemy HP % <=").SetValue(new Slider(95, 0, 100)));
-                item.AddItem(new MenuItem("selfYoumuus", "Use on Self HP % <=").SetValue(new Slider(95, 0, 100)));
-                root.AddSubMenu(item);
-            }
-
             {
                 draw.AddItem(new MenuItem("Dsetting", "Drawing Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.GreenYellow);
                 draw.AddItem(new MenuItem("Qrange", "Draw Q Range").SetValue(false));
@@ -95,10 +67,7 @@ namespace HastaKalistaBaby
                 draw.AddItem(new MenuItem("Rrange", "Draw R Range").SetValue(true));
                 draw.AddItem(new MenuItem("healthp", "Show Health Percent").SetValue(true));
                 draw.AddItem(new MenuItem("healthp1", "Show Damage HealthBar").SetValue(new Circle(true, System.Drawing.Color.Purple)));
-                draw.AddItem(new MenuItem("Target", "Draw Current Target").SetValue(true));
                 draw.AddItem(new MenuItem("TargetA", "Draw Target Attack Range").SetValue(true));
-                draw.AddItem(new MenuItem("Minionh", "Draw killable minions").SetValue(true));
-                draw.AddItem(new MenuItem("fps", "Reduce FPS usage").SetValue(false));
                 root.AddSubMenu(draw);
             }
 
@@ -112,13 +81,6 @@ namespace HastaKalistaBaby
                 lvl.AddItem(new MenuItem("4", "4").SetValue(new StringList(new[] { "Q", "W", "E", "R" }, 1)));
                 lvl.AddItem(new MenuItem("s", "Start at level").SetValue(new Slider(2, 1, 5)));
                 root.AddSubMenu(lvl);
-            }
-
-            var ex = new Menu("Exploit Settings", "ExploitOP").SetFontStyle(System.Drawing.FontStyle.Bold, Color.Red);
-            {
-                ex.AddItem(new MenuItem("EXsetting", "Exploit Settings")).SetFontStyle(System.Drawing.FontStyle.Bold, Color.OrangeRed);
-                ex.AddItem(new MenuItem("Fly", "Activate Exploit").SetValue(false));
-                root.AddSubMenu(ex);
             }
 
             root.AddToMainMenu();
